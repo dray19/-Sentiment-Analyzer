@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sentiment Analysis Web App (Transformers + VADER)
 
 A lightweight, interactive **sentiment analysis application** built with **Streamlit**, combining **state-of-the-art transformer models** from Hugging Face with the classic **NLTK VADER** sentiment analyzer.
@@ -56,3 +57,6 @@ pip install -r requirements.txt
 ```
 streamlit run app.py
 ```
+=======
+# -Sentiment-Analyzer
+>>>>>>> 9a74e019b5a77e203a95d2f05641c144e1b772e1
