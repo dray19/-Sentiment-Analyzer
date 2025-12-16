@@ -187,12 +187,11 @@ def main():
             """)
             
             # Agreement check
-            vader_binary = get_vader_sentiment_label(vader_result['compound'])
             # Transformer only returns POSITIVE or NEGATIVE, not NEUTRAL
             # For VADER NEUTRAL, we consider them in agreement if confidence is low
-            if vader_binary == transformer_result['sentiment']:
+            if vader_result['sentiment'] == transformer_result['sentiment']:
                 st.success("✅ Both models agree on the sentiment!")
-            elif vader_binary == "NEUTRAL" and transformer_result['confidence'] < 0.75:
+            elif vader_result['sentiment'] == "NEUTRAL" and transformer_result['confidence'] < 0.75:
                 st.info(f"ℹ️ VADER detected neutral sentiment while Transformer shows weak {transformer_result['sentiment'].lower()} sentiment.")
             else:
                 st.warning("⚠️ The models have different interpretations. Consider the context and nuances of the text.")
