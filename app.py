@@ -52,17 +52,27 @@ def get_sentiment_emoji(sentiment):
     else:
         return "😐"
 
+def get_vader_sentiment_label(compound_score):
+    """
+    Determine sentiment label from VADER compound score
+    
+    Args:
+        compound_score: VADER compound score (-1 to 1)
+    
+    Returns:
+        Sentiment label: "POSITIVE", "NEGATIVE", or "NEUTRAL"
+    """
+    if compound_score >= 0.05:
+        return "POSITIVE"
+    elif compound_score <= -0.05:
+        return "NEGATIVE"
+    else:
+        return "NEUTRAL"
+
 def analyze_with_vader(text, vader_analyzer):
     """Analyze sentiment using NLTK VADER"""
     scores = vader_analyzer.polarity_scores(text)
-    
-    # Determine overall sentiment
-    if scores['compound'] >= 0.05:
-        sentiment = "POSITIVE"
-    elif scores['compound'] <= -0.05:
-        sentiment = "NEGATIVE"
-    else:
-        sentiment = "NEUTRAL"
+    sentiment = get_vader_sentiment_label(scores['compound'])
     
     return {
         'sentiment': sentiment,
@@ -177,13 +187,13 @@ def main():
             """)
             
             # Agreement check
-            vader_binary = "POSITIVE" if vader_result['compound'] >= 0.05 else "NEGATIVE" if vader_result['compound'] <= -0.05 else "NEUTRAL"
+            vader_binary = get_vader_sentiment_label(vader_result['compound'])
             # Transformer only returns POSITIVE or NEGATIVE, not NEUTRAL
             # For VADER NEUTRAL, we consider them in agreement if confidence is low
             if vader_binary == transformer_result['sentiment']:
                 st.success("✅ Both models agree on the sentiment!")
             elif vader_binary == "NEUTRAL" and transformer_result['confidence'] < 0.75:
-                st.info("ℹ️ VADER detected neutral sentiment while Transformer shows weak {0} sentiment.".format(transformer_result['sentiment'].lower()))
+                st.info(f"ℹ️ VADER detected neutral sentiment while Transformer shows weak {transformer_result['sentiment'].lower()} sentiment.")
             else:
                 st.warning("⚠️ The models have different interpretations. Consider the context and nuances of the text.")
         else:

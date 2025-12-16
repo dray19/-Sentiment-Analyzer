@@ -73,10 +73,10 @@ The application will open in your default web browser (typically at `http://loca
 ## 📝 Requirements
 
 See `requirements.txt` for the complete list of dependencies:
-- streamlit==1.29.0
-- transformers==4.35.2
-- torch==2.1.1
-- nltk==3.8.1
+- streamlit>=1.29.0
+- transformers>=4.35.0
+- torch>=2.2.0
+- nltk>=3.8.1
 
 ## 🤝 Contributing
 
